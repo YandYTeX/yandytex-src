@@ -3,13 +3,12 @@
 #
 # You may freely use, modify and/or distribute this file.
 #
-# makefile for linux (tested in ubuntu 14.04: clang/LLVM 4.3).
-#
+# makefile for Mac OS X (tested in 10.9).
 #
 
 CC = clang
-CFLAGS = -c -O2 -Ilibmd5
-LDFLAGS = -lkpathsea -lz
+CFLAGS = -g -c -O2 -Wno-unused-result -Wno-dangling-else -I/Users/maqiyuan/dev/extra/include
+LDFLAGS = /Users/maqiyuan/dev/extra/lib/libkpathsea.a libdpx.a libpng.a libz.a -lm
 
 objects = yandytex.o itex.o openinou.o subroute.o local.o \
 	tex0.o tex1.o tex2.o tex3.o tex4.o \
@@ -19,11 +18,14 @@ objects = yandytex.o itex.o openinou.o subroute.o local.o \
 headers = yandytex.h texd.h coerce.h macros.h memory.h
 
 yandytex: $(objects)
-	$(CC) -s -o yandytex $(objects) $(LDFLAGS)
+	$(CC) -o yandytex $(objects) $(LDFLAGS)
 
 yandytex.o: yandytex.c $(headers)
 	$(CC) $(CFLAGS) yandytex.c
- 
+
+dpx.o: dpx.c $(headers)
+	$(CC) $(CFLAGS) dpx.c
+
 itex.o: itex.c $(headers)
 	$(CC) $(CFLAGS) itex.c
 

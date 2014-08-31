@@ -3,29 +3,30 @@
 #
 # You may freely use, modify and/or distribute this file.
 #
-# makefile for linux (tested in ubuntu 14.04: gcc 4.8).
-#
-# apt-get install libkpathsea6 libkpathsea-dev
-# apt-get install zlib1g zlib1g-dev
+# makefle for linux (tested in ubuntu 14.04: gcc 4.8).
+# linked libkpathsea.a and libz.a
 #
 
 CC = gcc
-CFLAGS = -c -O2 -Wno-unused-result
-LDFLAGS = -lkpathsea -lz
+CFLAGS = -g -c -O2 -Wno-unused-result
+LDFLAGS = libdpx.a libpng.a libz.a /home/clerk/dev/extra/lib/libkpathsea.a -lm
 
 objects = yandytex.o itex.o openinou.o subroute.o local.o \
 	tex0.o tex1.o tex2.o tex3.o tex4.o \
 	tex5.o tex6.o tex7.o tex8.o tex9.o \
-	pool.o utils.o
+	pool.o utils.o dpx.o
 
 headers = yandytex.h texd.h coerce.h macros.h memory.h
 
 yandytex: $(objects)
-	$(CC) -s -o yandytex $(objects) $(LDFLAGS)
+	$(CC) -o yandytex $(objects) $(LDFLAGS)
 
 yandytex.o: yandytex.c $(headers)
 	$(CC) $(CFLAGS) yandytex.c
- 
+
+dpx.o: dpx.c $(headers)
+	$(CC) $(CFLAGS) dpx.c
+
 itex.o: itex.c $(headers)
 	$(CC) $(CFLAGS) itex.c
 
