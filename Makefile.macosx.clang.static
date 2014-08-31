@@ -7,7 +7,7 @@
 #
 
 CC = clang
-CFLAGS = -g -c -O2 -Wno-unused-result -I/Users/maqiyuan/dev/extra/include
+CFLAGS = -g -c -O2 -Wno-unused-result -Wno-dangling-else -I/Users/maqiyuan/dev/extra/include
 LDFLAGS = /Users/maqiyuan/dev/extra/lib/libkpathsea.a libdpx.a libpng.a libpaper.a libz.a -lm
 
 objects = yandytex.o itex.o openinou.o subroute.o local.o \

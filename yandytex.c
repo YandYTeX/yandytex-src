@@ -1,4 +1,5 @@
-/* Copyright 1992 Karl Berry
+/*
+   Copyright 1992 Karl Berry
    Copyright 2007 TeX Users Group
    Copyright 2014 Clerk Ma
 
@@ -15,7 +16,8 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-   02110-1301 USA.  */
+   02110-1301 USA.
+*/
 
 #define EXTERN
 
@@ -737,35 +739,3 @@ int do_undump (char *p, int item_size, int nitems, FILE *in_file)
 
   return 0;
 }
-
-#ifdef FUNNY_CORE_DUMP
-
-void funny_core_dump (void)
-{
-  int pid, w;
-  union wait status;
-
-  switch (pid = vfork ())
-  {
-    case -1:
-      perrormod ("vfork");
-      exit (-1);
-
-    case 0:
-       (void) signal (SIGQUIT, SIG_DFL);
-       (void) kill (getpid (), SIGQUIT);
-       (void) write (2, "how did we get here?\n", 21);
-       exit (1);
-
-    default:
-      while ((w = wait (&status)) != pid && w != -1)
-        ;
-
-      if (status.w_coredump)
-        exit (0);
-
-      (void) write (2, "attempt to dump core failed\n", 28);
-      exit (1);
-  }
-}
-#endif /* FUNNY_CORE_DUMP */

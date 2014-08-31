@@ -1,4 +1,5 @@
-/* Copyright 1992 Karl Berry
+/*
+   Copyright 1992 Karl Berry
    Copyright 2007 TeX Users Group
    Copyright 2014 Clerk Ma
 
@@ -15,7 +16,8 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-   02110-1301 USA.  */
+   02110-1301 USA.
+*/
 
 #define EXTERN extern
 
@@ -28,10 +30,6 @@
 #define BUILDNAMEDIRECT
 
 extern int shorten_file_name;
-
-#ifdef FUNNY_CORE_DUMP
-  extern void funny_core_dump(void);
-#endif
 
 #ifdef BUILDNAMEDIRECT
 char * xconcat (char * buffer, char * s1, char * s2)

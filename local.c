@@ -1,4 +1,5 @@
-/* Copyright 2007 TeX Users Group
+/*
+   Copyright 2007 TeX Users Group
    Copyright 2014 Clerk Ma   
 
    This program is free software; you can redistribute it and/or modify
@@ -14,7 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-   02110-1301 USA.  */
+   02110-1301 USA.
+*/
+
+#if   defined (__ANDROID__)
+  #define malloc_usable_size dlmalloc_usable_size
+#elif defined (__APPLE__)
+  #include <malloc/malloc.h>
+  #define malloc_usable_size malloc_size
+#endif
 
 #define EXTERN extern
 
@@ -29,18 +38,14 @@
   #define REALLOC realloc
 #endif
 
-#if   defined (__ANDROID__)
-  #define malloc_usable_size dlmalloc_usable_size
-#elif defined (__APPLE__)
-  #define malloc_usable_size malloc_size
-#endif
-
 #if   defined (__clang__)
 const char * compiler = "Clang/LLVM";
 #elif defined (__GNUC__) || defined(__GNUG__)
 const char * compiler = "GCC";
 #elif defined (_MSC_VER)
 const char * compiler = "MSVC";
+#else
+const char * compiler = "Unknown";
 #endif
 
 #if   defined (_WIN64)
@@ -96,10 +101,6 @@ void show_usage (void)
       "                    (complain instead)\n"
       "--showhex    -w  do not show `non ASCII' characters in hexadecimal\n"
       "                    (show as is)\n"
-      "--nodos      -d  do not allow DOS style file names - i.e. do not convert\n"
-      "                    \\ to /\n"
-      "--nomac      -r  do not allow Mac style termination - i.e. do not convert\n"
-      "                    \\r to \\n\n"
       "--patterns   -p  allow use of \\patterns after loading format (initex only)\n"
       "--knuthify   -K  disable all extensions to basic TeX\n"
       "--main-mem   -m  initial main memory size in kilo words (initex only)\n"
@@ -132,25 +133,6 @@ void scivilize (char * date)
 
   if (date[9] == ' ')
     date[9] = '0';
-}
-
-// Thu Sep 27 06:26:35 1990 => 1990 Sep 27 06:26:35
-void lcivilize (char * date)
-{
-  int k;
-  char pyear[6];
-
-  strcpy(pyear, date + 20);
-
-  for (k = 18; k >= 0; k--)
-    date[k + 1] = date[k];
-
-  date[20] = '\0';
-
-  for (k = 0; k < 4; k++)
-    date[k] = pyear[k];
-
-  date[4] = ' ';
 }
 
 void stamp_it (char * s)
@@ -1377,7 +1359,7 @@ list_state_record * realloc_nest_stack (int size)
 #ifdef ALLOCATEPARAMSTACK
 int current_param_size = 0;
 
-halfword *realloc_param_stack (int size)
+halfword * realloc_param_stack (int size)
 {
   int k, min_size;
   int n = 0, new_size = 0;
@@ -1832,7 +1814,6 @@ boolean prime (int x)
   return true;
 }
 
-int quitflag  = 0;
 boolean show_use = false;
 
 void complainarg (int c, char *s)
@@ -2173,7 +2154,7 @@ void knuthify (void)
   c_style_flag          = false; /* don't add file name to error msg */
   show_fmt_flag         = false; /* don't show format file in log */
   show_tfm_flag         = false; /* don't show metric file in log */
-  tab_step              = 0;
+  tab_step              = 0;     /* tab's size of width */
   show_line_break_stats = false; /* do not show line break stats */
   show_fonts_used       = false;
   default_rule          = 26214; /* revert to default rule thickness */
@@ -2300,9 +2281,6 @@ int analyze_flag (int c, char * optarg)
       break;
     case 't':
       trace_flag = true;
-      break;
-    case 'q':
-      quitflag++; /* 93/Dec/16 */
       break;
 /* The following are really obscure and should not be advertized */
     case 's':
@@ -2508,20 +2486,12 @@ int read_command_line (int ac, char **av)
     analyze_flag(c, optargnew);
   }
 
-  if (show_use || quitflag == 3)
+  if (show_use)
   {
     stamp_it(log_line);
     strcat(log_line, "\n");
     show_line(log_line, 0);
-
-    if (show_use)
-      show_usage();
-    else if (quitflag == 3)
-    {
-      strcat(log_line, "\n");
-      show_line(log_line, 0);
-    }
-
+    show_usage();
     return -1; // failure
   } 
 
@@ -2618,18 +2588,7 @@ void initial_memory (void)
   if (mem_initex < 0)
     mem_initex = 0;
 
-  if (is_initex)
-  {
- #if defined(ALLOCATEHIGH) || defined(ALLOCATELOW)
-    if (mem_extra_high != 0 || mem_extra_low != 0)
-    {
-      puts("ERROR: Cannot extend main memory in initex");
-      mem_extra_high = 0;
-      mem_extra_low = 0;
-    }
-#endif
-  }
-  else
+  if (!is_initex)
   {
     if (mem_initex != 0)
     {
@@ -2643,6 +2602,7 @@ void initial_memory (void)
 /* trie_size = 0; */
     }
   }
+
   if (mem_initex == 0)
     mem_initex = default_mem_top;
 
@@ -2932,7 +2892,11 @@ int main_init (int ac, char ** av)
   return 0;
 }
 
+#ifdef __APPLE__
+#undef CLK_TCK
+#endif
 #define CLK_TCK CLOCKS_PER_SEC
+
 
 void show_inter_val (clock_t inter_val)
 {
@@ -2963,7 +2927,7 @@ void show_inter_val (clock_t inter_val)
     show_line("0", 0);
 }
 
-int endit(int flag)
+int endit (int flag)
 {
   finish_time = clock();
 

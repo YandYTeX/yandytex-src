@@ -1,4 +1,5 @@
-/* Copyright 2014 Clerk Ma
+/*
+   Copyright 2014 Clerk Ma
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +14,11 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-   02110-1301 USA.  */
+   02110-1301 USA.
+*/
+
+#ifndef _YANDYTEX_DPX_H
+#define _YANDYTEX_DPX_H
 
 extern void pdf_init_fontmaps(void);
 extern void pdf_close_fontmaps(void);
@@ -66,3 +71,5 @@ extern void pdf_dev_set_rect (pdf_rect *rect,
                   spt_t x_user, spt_t y_user,
                   spt_t width,  spt_t height, spt_t depth);
 extern void pdf_doc_expand_box (const pdf_rect *rect);
+
+#endif
