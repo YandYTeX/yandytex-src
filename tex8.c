@@ -1059,7 +1059,7 @@ void show_whatever (void)
         get_token();
 
         if (interaction == error_stop_mode)
-          do_nothing();
+          wake_up_terminal();
 
         print_nl("> ");
 
@@ -1079,7 +1079,7 @@ void show_whatever (void)
         p = the_toks();
 
         if (interaction == error_stop_mode)
-          do_nothing();
+          wake_up_terminal();
 
         print_nl("> ");
         token_show(temp_head);

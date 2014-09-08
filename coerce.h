@@ -137,7 +137,8 @@ void show_box_(pointer p);
 void delete_token_ref_(pointer p);
 #define delete_token_ref(p) delete_token_ref_((pointer) (p))
 void delete_glue_ref_(pointer p);
-#define delete_glue_ref(p) delete_glue_ref_((pointer) (p))
+#define delete_glue_ref(p)      delete_glue_ref_((pointer) (p))
+#define fast_delete_glue_ref(p) delete_glue_ref_((pointer) (p))
 void flush_node_list_(pointer p);
 #define flush_node_list(p) flush_node_list_((pointer) (p))
 pointer copy_node_list_(pointer p);

@@ -84,7 +84,7 @@ void initialize (void)
     xord[chr(i)] = invalid_code;
 
 #ifdef JOKE
-  for (i = 128; i <= 255 ; i++)
+  for (i = 128; i <= 255; i++)
     xord[xchr[i]] = i;
 
   for (i = 0; i <= 126; i++)
@@ -1879,6 +1879,7 @@ boolean load_fmt_file (void)
   return true;
 
 bad_fmt:
+  wake_up_terminal();
   puts("(Fatal format file error; I'm stymied)");
 
   return false;

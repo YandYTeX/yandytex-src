@@ -127,35 +127,48 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
-        case glue_node:
-          delete_glue_ref(p);
 
-          if (leader_ptr(p) != 0)
-            flush_node_list(leader_ptr(p));
+        case glue_node:
+          {
+            fast_delete_glue_ref(p);
+
+            if (leader_ptr(p) != 0)
+              flush_node_list(leader_ptr(p));
+          }
           break;
+
         case kern_node:
         case math_node:
         case penalty_node:
+          do_nothing();
           break;
+
         case ligature_node:
           flush_node_list(lig_ptr(p));
           break;
+
         case mark_node:
           delete_token_ref(mark_ptr(p));
           break;
+
         case disc_node:
-          flush_node_list(pre_break(p));
-          flush_node_list(post_break(p));
+          {
+            flush_node_list(pre_break(p));
+            flush_node_list(post_break(p));
+          }
           break;
+
         case adjust_node:
           flush_node_list(adjust_ptr(p));
           break;
+
         case style_node:
           {
             free_node(p, style_node_size);
             goto done;
           }
           break;
+
         case choice_node:
           {
             flush_node_list(display_mlist(p));
@@ -166,6 +179,7 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         case ord_noad:
         case op_noad:
         case bin_noad:

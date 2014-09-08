@@ -706,7 +706,7 @@ void firm_up_the_line (void)
   if (pausing > 0)
     if (interaction > nonstop_mode)
     {
-      ;
+      wake_up_terminal();
       print_ln();
 
       if (start < limit)

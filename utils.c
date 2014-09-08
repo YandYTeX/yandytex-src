@@ -26,6 +26,10 @@ void do_nothing(void)
 {
   /* todo */
 }
+void wake_up_terminal (void)
+{
+  /* todo */
+}
 /* sec 0034 */
 void update_terminal(void)
 {
@@ -70,7 +74,7 @@ void append_lc_hex (ASCII_code c)
 void print_err (const char * s)
 {
   if (interaction == error_stop_mode)
-    do_nothing();
+    wake_up_terminal();
   
   print_nl("! ");
   prints(s);
@@ -78,6 +82,7 @@ void print_err (const char * s)
 /* sec 0071 */
 void prompt_input(const char * s)
 {
+  wake_up_terminal();
   prints(s);
   term_input();
 }

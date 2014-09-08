@@ -49,7 +49,10 @@ boolean open_fmt_file (void)
       goto found;
   
     if (knuth_flag)
+    {
+      wake_up_terminal();
       printf("%s;%s\n", "Sorry, I can't find that format", " will try the default.");
+    }
     else
     {
       name_of_file[name_length + 1] = '\0';
@@ -68,7 +71,10 @@ boolean open_fmt_file (void)
   if (!w_open_in(fmt_file))
   {
     if (knuth_flag)
+    {
+      wake_up_terminal();
       printf("%s!\n", "I can't find the default format file");
+    }
     else
     {
       name_of_file[name_length + 1] = '\0';
@@ -249,6 +255,8 @@ void close_files_and_terminate (void)
       }
   }
 #endif
+  
+  wake_up_terminal();
 
   {
     if (total_pages == 0)

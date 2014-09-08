@@ -699,6 +699,7 @@ boolean init_terminal (void)
 // failed to find input file name
   while (true)
   {
+    wake_up_terminal();
     fputs("**", stdout);
     update_terminal();
     flag = input_ln(stdin, true);

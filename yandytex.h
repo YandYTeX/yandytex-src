@@ -821,6 +821,7 @@ extern char * unixify (char * t);
 /* sec 79 */
 extern void node_list_display (integer p);
 extern void do_nothing (void);
+extern void wake_up_terminal (void);
 extern void update_terminal (void);
 extern void check_full_save_stack (void);
 extern void push_input (void);

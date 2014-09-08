@@ -972,6 +972,7 @@ void read_toks (integer n, pointer r)
             prompt_input("");
           else
           {
+            wake_up_terminal();
             print_ln();
             sprint_cs(r);
             prompt_input("=");
@@ -1656,7 +1657,7 @@ void prompt_file_name_(const char * s, str_number e)
   integer k;
 
   if (interaction == scroll_mode)
-    do_nothing();
+    wake_up_terminal();
 
   if (!strcmp("input file name", s))
     print_err("I can't find file `");
