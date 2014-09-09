@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 0440 */
@@ -442,7 +441,7 @@ not_found:
 
   cur_val = xn_over_d(cur_val, num, denom);
   f = (num * f + 65536L * tex_remainder) / denom;
-  cur_val = cur_val +(f / 65536L);
+  cur_val = cur_val + (f / 65536L);
   f = f % 65536L;
 
 done2:
@@ -1511,20 +1510,17 @@ void pack_file_name (str_number n, str_number a, str_number e)
   for (k = name_length + 1; k <= file_name_size; k++)
     name_of_file[k] = ' ';
 
-  name_of_file[file_name_size] = '\0'; /* paranoia */
+  name_of_file[file_name_size] = '\0';
 
   {
     name_of_file [name_length + 1] = '\0';
 
     if (trace_flag)
-      printf(" pack_file_name `%s' (%lld) ", name_of_file + 1, name_length);
+      printf(" pack_file_name -> `%s' (%lld) ", name_of_file + 1, name_length);
 
     name_of_file [name_length + 1] = ' ';
   }
 }
-/* Called only from two places tex9.c for format name - specified and default */
-/* for specified format name args are 0, a, b name in buffer[a] --- buffer[b] */
-/* for default args are format_default_length-4, 1, 0 */
 /* sec 0523 */
 void pack_buffered_name_(small_number n, integer a, integer b)
 {
@@ -1757,7 +1753,7 @@ void open_log_file (void)
   log_opened = true;
 
   {
-    fprintf(log_file, "%s (%s %s)", banner, application, yandyversion);
+    log_printf("%s (%s %s)", banner, application, yandyversion);
 
     if (format_ident > 0)
       slow_print(format_ident);
@@ -1804,7 +1800,7 @@ void open_log_file (void)
   {
     if (format_file != NULL)
     {
-      fprintf(log_file, "(%s)\n", format_file);
+      log_printf("(%s)\n", format_file);
       free(format_file);
       format_file = NULL;
     }

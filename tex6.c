@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 0785 */

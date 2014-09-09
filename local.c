@@ -39,7 +39,7 @@
 #endif
 
 #if   defined (__clang__)
-const char * compiler = "Clang/LLVM";
+const char * compiler = "Clang";
 #elif defined (__GNUC__) || defined(__GNUG__)
 const char * compiler = "GCC";
 #elif defined (_MSC_VER)
@@ -93,7 +93,7 @@ boolean reorder_arg_flag  = true;  /* put command line flags/arguments first */
 void show_usage (void)
 {
   printf("\n"
-      "Useage: yandytex [OPTION]... [+format_file] [tex_file]\n\n"
+      "Useage: yandytex [OPTION]... [+format_file] [file]\n\n"
       "--help       -?  show this usage summary\n"
       "--initex     -i  start up as initex (create format file)\n"
       "--verbose    -v  be verbose (show implementation version number)\n"
@@ -507,7 +507,7 @@ void memory_error (const char * s, int n)
 {
   if (log_opened)
   {
-    fprintf(log_file, "\n! Unable to allocate %d bytes for %s\n", n, s);
+    log_printf("\n! Unable to allocate %d bytes for %s\n", n, s);
     show_maximums(log_file);
   }
 
@@ -3271,7 +3271,7 @@ void dvi_font_show (internal_font_number f, int suppressname)
 
     checksum = (((font_check[f].b0) << 8 | font_check[f].b1) << 8 | font_check[f].b2) << 8 | font_check[f].b3;
     decode_fourty(checksum, checksumvector);
-    fprintf(log_file, "encoding: %s..", checksumvector);
+    log_printf("encoding: %s..", checksumvector);
   }
 
   putc('\n', log_file);
@@ -3293,7 +3293,7 @@ void show_font_info (void)
 
   fnumtable = (short *) malloc(fcount * sizeof(short));
 
-  fprintf(log_file, "\nUsed %d font%s:\n", fcount, (fcount == 1) ? "" : "s");
+  log_printf("\nUsed %d font%s:\n", fcount, (fcount == 1) ? "" : "s");
 
   fcount = 0;
 

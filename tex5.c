@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 0715 */
@@ -298,7 +297,7 @@ void make_radical (pointer q)
   }
 
   y = var_delimiter(left_delimiter(q), cur_size, height(x) + depth(x) + clr + default_rule_thickness);
-  delta = depth(y) -(height(x) + depth(x) + clr);
+  delta = depth(y) - (height(x) + depth(x) + clr);
 
   if (delta > 0)
     clr = clr + half(delta);

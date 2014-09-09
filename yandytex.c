@@ -103,13 +103,11 @@ void t_open_in (void)
   for (last = first; buffer[last]; ++last)
     do_nothing();
 
-  for (--last; last >= first && ISBLANK (buffer[last]) && buffer[last] != '\r'; --last)
+  for (--last; last >= first && ISBLANK(buffer[last]) && buffer[last] != '\r'; --last)
     do_nothing();
 
   last++;
 
-/* One more time, this time converting to TeX's internal character
-   representation.  */ /* for command line input in this case */
   if (non_ascii)
   {
     for (i = first; i < last; i++)
@@ -312,13 +310,7 @@ boolean input_line_finish (void)
 
   return true;
 }
-
-/* Read a line of input into buffer as efficiently as possible (ha ha)
-   while still looking like Pascal.
-   We set `last' to `first' and return `false' if we get to eof.
-   Otherwise, we return `true' and set last = first +
-   length(line except trailing whitespace).  */
-
+/* sec 0031 */
 boolean input_line (FILE * f)
 {
   char * u;        /* 1994/July/3 for key_replace */
@@ -416,15 +408,15 @@ boolean input_line (FILE * f)
     }
   }
 
-  if (return_flag)    /* let return terminate line as well as newline */
+  if (return_flag)  /* let return terminate line as well as newline */
   {
-    if (i == '\r')      /* see whether return followed by newline */
+    if (i == '\r')  /* see whether return followed by newline */
     {
-      i = getc (f);       /* in which case throw away the newline */
+      i = getc(f);  /* in which case throw away the newline */
 
       if (i != '\n')
       {
-        ungetc (i, f);
+        ungetc(i, f);
         i = '\r';
       }
 /*      else  buffer[last-1] = (ASCII_code) i; */
@@ -468,10 +460,12 @@ boolean input_line (FILE * f)
 
 static char * edit_value = "c:\\yandy\\WinEdt\\WinEdt.exe [Open('%s');SelLine(%d,7)]";
 
+#ifdef WIN32
 static inline int Isspace (char c)
 {
   return (c == ' ' || c == '\t');
 }
+#endif
 
 void call_edit (ASCII_code * filename, pool_pointer fnstart, integer fnlength, integer linenumber)
 {
@@ -488,12 +482,12 @@ void call_edit (ASCII_code * filename, pool_pointer fnstart, integer fnlength, i
   sdone = ddone = 0;
   filename += fnstart;
 
-  /* Close any open input files, since we're going to kill the job.  */
+  /* Close any open input files, since we're going to kill the job. */
   for (i = 1; i <= in_open; i++)
 #ifdef XeTeX
-    xfclose (input_file[i]->f, "inputfile");
+    xfclose(input_file[i]->f, "inputfile");
 #else
-    xfclose (input_file[i], "inputfile");
+    xfclose(input_file[i], "inputfile");
 #endif
 
   /* Replace the default with the value of the appropriate environment
@@ -621,15 +615,6 @@ void call_edit (ASCII_code * filename, pool_pointer fnstart, integer fnlength, i
 
 
 #if !defined (WORDS_BIGENDIAN) && !defined (NO_FMTBASE_SWAP)
-
-/* We don't REALLY care what `endian' the machine is after all ! */
-
-// #ifdef MYDEBUG
-// char swapmarkerstring="ERROR: SWAPPING - NOT BigEndian AND NOT NoFmtBaseSwap";
-// #endif
-
-/* This macro is always invoked as a statement.  It assumes a variable
-   `temp'.  */
    
 #define SWAP(x, y) temp = (x); (x) = (y); (y) = temp;
 

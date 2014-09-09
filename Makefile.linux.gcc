@@ -8,7 +8,7 @@
 #
 
 CC = gcc
-CFLAGS = -g -c -O2 -Wno-unused-result
+CFLAGS = -g -c -O2
 LDFLAGS = libdpx.a libpng.a libz.a /home/clerk/dev/extra/lib/libkpathsea.a -lm
 
 objects = yandytex.o itex.o openinou.o subroute.o local.o \

@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "dpx.h"
 #include "yandytex.h"
 

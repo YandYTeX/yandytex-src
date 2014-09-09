@@ -28,6 +28,9 @@
   #pragma warning(disable:4701) // potentially uninitialized local variable 'name' used
   #pragma warning(disable:4135) // conversion between different integral types
   #pragma warning(disable:4127) // conditional expression is constant
+#else
+  #pragma GCC diagnostic ignored "-Wunused-result"
+  #pragma GCC diagnostic ignored "-Wdangling-else"
 #endif
 
 #include <stdarg.h>
@@ -99,14 +102,6 @@ EXTERN int check_fclose    (FILE * f);
 #define wlog(s)     (void) putc(s, log_file)
 #define wterm_cr()  (void) putc('\n', stdout);
 #define wlog_cr()   (void) putc('\n', log_file);
-
-enum
-{
-  out_dvi_flag = (1 << 0),
-  out_pdf_flag = (1 << 1),
-  out_xdv_flag = (1 << 2),
-  out_dpx_flag = (1 << 3),
-};
 
 EXTERN boolean input_line (FILE * f);
 #define input_ln(stream, flag) input_line(stream)

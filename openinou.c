@@ -248,7 +248,7 @@ boolean open_input (FILE ** f, kpse_file_format_type file_fmt, const char * fope
         else
           (void) putc(' ', log_file);
 
-        fprintf(log_file, "(%s)", name_of_file + 1);
+        log_printf("(%s)", name_of_file + 1);
         file_offset += n + 3;
       }
     }

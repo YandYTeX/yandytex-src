@@ -20,7 +20,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 #define BEGINFMTCHECKSUM 367403084L
@@ -1972,20 +1971,20 @@ void show_frozen (void)
 {
   int i;
 
-  fprintf(log_file, "\n(%lld fonts frozen in format file:\n", font_ptr);
+  log_printf("\n(%lld fonts frozen in format file:\n", font_ptr);
 
   for (i = 1; i <= font_ptr; i++)
   {
     if (i > 1)
-      fprintf(log_file, ", ");
+      log_printf(", ");
 
     if ((i % 8) == 0)
-      fprintf(log_file, "\n");
+      log_printf("\n");
 
     fwrite(&str_pool[str_start[font_name[i]]], 1, length(font_name[i]), log_file);
   }
 
-  fprintf(log_file, ") ");
+  log_printf(") ");
 }
 
 int main_program (void)

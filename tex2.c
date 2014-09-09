@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* following bit used to be end of tex1.c */
@@ -500,8 +499,7 @@ void back_input (void)
 {
   pointer p;
 
-  while ((state == 0) && (loc == 0) &&
-      (index != v_template))
+  while ((state == 0) && (loc == 0) && (index != v_template))
   {
     end_token_list();
   }
@@ -566,7 +564,7 @@ void begin_file_reading (void)
 
   incr(in_open);
 
-  if (in_open > high_in_open) /* 1999 Jan 17 */
+  if (in_open > high_in_open)
     high_in_open = in_open;
 
   push_input();
@@ -588,12 +586,10 @@ void end_file_reading (void)
   pop_input();
   decr(in_open);
 }
-/* called only form tex0.c */
 /* sec 0330 */
 void clear_for_error_prompt (void) 
 {
-  while ((state != 0) && (name == 0) &&
-    (input_ptr > 0) && (loc > limit))
+  while ((state != 0) && (name == 0) && (input_ptr > 0) && (loc > limit))
     end_file_reading();
 
   print_ln();
@@ -1204,7 +1200,7 @@ void expand (void)
 
       case fi_or_else:
         if (cur_chr > if_limit)
-          if (if_limit == 1)
+          if (if_limit == if_code)
             insert_relax();
           else
           {
@@ -1853,7 +1849,7 @@ void scan_something_internal (small_number level, boolean negative)
   }
 
   if (negative)
-    if (cur_val_level >= 2)
+    if (cur_val_level >= glue_val)
     {
       cur_val = new_spec(cur_val);
 

@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 0994 */
@@ -213,7 +212,6 @@ continu:
 
                 q = vert_break(ins_ptr(p), w, depth(p));
                 height(r) = height(r) + best_height_plus_depth;
-
 #ifdef STAT
                 if (tracing_pages > 0)
                 {

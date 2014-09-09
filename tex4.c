@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "dpx.h"
 #include "yandytex.h"
 
@@ -1251,19 +1250,8 @@ done:
 #endif
 }
 void ship_out (pointer p)
-{;
+{
   pdf_ship_out(p);
-  /*
-  switch (shipout_flag)
-  {
-    case out_dvi_flag:
-    case out_xdv_flag:
-      dvi_ship_out_(p);
-      break;
-    case out_pdf_flag:
-      //pdf_ship_out(p);
-      break;
-  }*/
 }
 /* sec 0645 */
 void scan_spec (group_code c, boolean three_codes)

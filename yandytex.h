@@ -851,4 +851,5 @@ extern void print_plus (int i, const char * s);
 extern void fget (void);
 extern str_number get_job_name (str_number job);
 extern void show_font_info (void);
+#define log_printf(...) fprintf(log_file, __VA_ARGS__)
 #endif

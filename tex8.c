@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 1181 */
@@ -1492,6 +1491,7 @@ void handle_right_brace (void)
                 }
       }
       break;
+
     default:
       {
         confusion("rightbrace");

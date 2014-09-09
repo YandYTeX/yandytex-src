@@ -180,12 +180,12 @@ void print_ (integer s)
           }
         }
 
-        new_line_char = nl; /* restore eol */
+        new_line_char = nl;
         return;
       }
     }
   }
-/*  we get here with s > 256 - i.e. not a single character */
+
   j = str_start[s];
 
   while (j < str_start[s + 1])
@@ -356,7 +356,7 @@ void print_file_name (integer n, integer a, integer e)
   slow_print(e);
 }
 /* sec 0699 */
-void print_size_ (integer s)
+void print_size (integer s)
 { 
   if (s == 0)
     print_esc("textfont");
@@ -391,7 +391,7 @@ void jump_out (void)
     if (trace_flag)
       puts("EXITING at JUMPOUT");
 
-    if ((history != 0) && (history != 1))
+    if ((history != spotless) && (history != warning_issued))
       code = 1;
     else
       code = 0;
@@ -525,7 +525,7 @@ continu:
             if (last > first + 1)
             {
               loc = first + 1;
-              buffer[first] = 32;
+              buffer[first] = ' ';
             }
             else
             {
@@ -617,7 +617,7 @@ continu:
   else while (help_ptr > 0)
   {
     decr(help_ptr);
-    print_nl(help_line[help_ptr] == NULL ? "" : help_line[help_ptr]);
+    print_nl(help_line[help_ptr]);
   }
 
   print_ln();
@@ -884,15 +884,13 @@ void print_current_string (void)
 void term_input (void)
 { 
   integer k;
-  boolean flag;
   
   if (!knuth_flag)
     show_line("\n", 0);
 
   update_terminal();
-  flag = input_ln(stdin, true);
 
-  if (!flag)
+  if (!input_ln(stdin, true))
   {
     fatal_error("End of file on the terminal!");
     return;
@@ -1049,8 +1047,8 @@ scaled x_over_n_(scaled x, integer n)
     }
     else
     {
-      Result = - (integer) ((- (integer) x)/ n);
-      tex_remainder = - (integer) ((- (integer) x)% n);
+      Result = - (integer) ((- (integer) x) / n);
+      tex_remainder = - (integer) ((- (integer) x) % n);
     }
   }
 
@@ -1234,6 +1232,7 @@ void show_token_list_(integer p, integer q, integer l)
           break;
       }
     }
+
     p = link(p);
   }
 
@@ -1245,7 +1244,7 @@ void runaway (void)
 {
   pointer p;
 
-  if (scanner_status > 1)
+  if (scanner_status > skipping)
   {
     print_nl("Runaway ");
 
@@ -1778,9 +1777,6 @@ done2:
   was_lo_max = lo_mem_max;
   was_hi_min = hi_mem_min;
 }
-#endif /* DEBUG */
-
-#ifdef DEBUG
 /* sec 0172 */
 void search_mem_(pointer p)
 {
@@ -1972,11 +1968,11 @@ void print_glue_(scaled d, integer order, const char * s)
 
   if ((order < normal) || (order > filll))
     prints("foul");
-  else if (order > 0)
+  else if (order > normal)
   {
     prints("fil");
 
-    while (order > 1)
+    while (order > fil)
     {
       print_char('l');
       decr(order);
@@ -2186,7 +2182,7 @@ void show_node_list_(integer p)
 
   if (cur_length > depth_threshold)
   {
-    if (p != 0)    /* fixed 94/Mar/23 BUG FIX NOTE: still not fixed in 3.14159 ! */
+    if (p != 0)
       prints(" []");
 
     return; 

@@ -18,7 +18,6 @@
 */
 
 #define EXTERN extern
-
 #include "yandytex.h"
 
 /* sec 0198 */
@@ -84,12 +83,14 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         case rule_node:
           {
             free_node(p, rule_node_size);
             goto done;
           }
           break;
+
         case ins_node:
           {
             flush_node_list(ins_ptr(p));
@@ -98,6 +99,7 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         case whatsit_node:
           {
             switch (subtype(p))
@@ -105,6 +107,7 @@ void flush_node_list_(pointer p)
               case open_node:
                 free_node(p, open_node_size);
                 break;
+
               case write_node:
               case special_node:
                 {
@@ -113,10 +116,12 @@ void flush_node_list_(pointer p)
                   goto done;
                 }
                 break;
+
               case close_node:
               case set_language_code:
                 free_node(p, small_node_size);
                 break;
+
               default:
                 {
                   confusion("ext3");
@@ -124,6 +129,7 @@ void flush_node_list_(pointer p)
                 }
                 break;
             }
+
             goto done;
           }
           break;
@@ -216,6 +222,7 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         case left_noad:
         case right_noad:
           {
@@ -223,6 +230,7 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         case fraction_noad:
           {
             flush_node_list(info(numerator(p)));
@@ -231,6 +239,7 @@ void flush_node_list_(pointer p)
             goto done;
           }
           break;
+
         default:
           {
             confusion("flushing");
@@ -276,12 +285,14 @@ pointer copy_node_list_(pointer p)
           words = 5;
         }
         break;
+
       case rule_node:
         {
           r = get_node(rule_node_size);
           words = rule_node_size;
         }
         break;
+
       case ins_node:
         {
           r = get_node(ins_node_size);
@@ -291,6 +302,7 @@ pointer copy_node_list_(pointer p)
           words = ins_node_size - 1;
         }
         break;
+
       case whatsit_node:
         switch (subtype(p))
         {
@@ -2299,7 +2311,7 @@ pointer id_lookup_(integer j, integer l)
         if (trace_flag)
         {
           str_pool[pool_ptr] = '\0';
-          printf(" tex1.c incr(cs_count): '%s' ", &str_pool[pool_ptr - l - d]);
+          printf(" tex1.c cs_count: '%s' ", &str_pool[pool_ptr - l - d]);
         }
 #endif
       }
@@ -2391,7 +2403,7 @@ void eq_define_(pointer p, quarterword t, halfword e)
   else if (cur_level > level_one)
     eq_save(p, eq_level(p));
 
-  eq_level(p) = (quarterword) cur_level;
+  eq_level(p) = cur_level;
   eq_type(p) = t;
   equiv(p) = e;
 }
@@ -2401,7 +2413,7 @@ void eq_word_define_(pointer p, integer w)
   if (xeq_level[p] != cur_level)
   {
     eq_save(p, xeq_level[p]);
-    xeq_level[p] = (quarterword) cur_level;
+    xeq_level[p] = cur_level;
   }
 
   eqtb[p].cint = w;

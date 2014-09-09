@@ -40,8 +40,7 @@ void print_cs_(integer p);
 #define print_cs(p) print_cs_((integer) (p))
 void sprint_cs (pointer p);
 void print_file_name (integer n, integer a, integer e);
-void print_size_(integer s);
-#define print_size(s) print_size_((integer) (s))
+void print_size (integer s);
 void print_write_whatsit_(const char * s, pointer p);
 #define print_write_whatsit(s, p) print_write_whatsit_((const char *) (s), (pointer) (p))
 void jump_out (void);
