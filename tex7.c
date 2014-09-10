@@ -991,7 +991,7 @@ void head_for_vmode (void)
     back_input();
     cur_tok = par_token;
     back_input();
-    index = inserted;
+    token_type = inserted;
   }
 }
 /* sec 1096 */

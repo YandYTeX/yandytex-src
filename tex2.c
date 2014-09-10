@@ -214,7 +214,7 @@ void show_context (void)
     if ((base_ptr == input_ptr) || bottom_line || (nn < error_context_lines))
     {
       if ((base_ptr == input_ptr) || (state != token_list) ||
-          (index != backed_up) || (loc != 0))
+          (token_type != backed_up) || (loc != 0))
       {
         tally = 0;
         old_setting = selector;
@@ -277,7 +277,7 @@ void show_context (void)
         }
         else
         {
-          switch (index)
+          switch (token_type)
           {
             case parameter:
               print_nl("<argument> ");
@@ -351,7 +351,7 @@ void show_context (void)
 
           begin_pseudoprint();
 
-          if (index < macro)
+          if (token_type < macro)
             show_token_list(start, loc, 100000L);
           else
             show_token_list(link(start), loc, 100000L);
@@ -422,7 +422,7 @@ void begin_token_list_ (pointer p, quarterword t)
   push_input();
   state = token_list;
   start = p;
-  index = t;
+  token_type = t;
 
   if (t >= macro)
   {
@@ -466,15 +466,15 @@ void begin_token_list_ (pointer p, quarterword t)
 /* sec 0324 */
 void end_token_list (void) 
 { 
-  if (index >= backed_up)
+  if (token_type >= backed_up)
   {
-    if (index <= inserted)
+    if (token_type <= inserted)
       flush_list(start); 
     else
     {
       delete_token_ref(start);
 
-      if (index == macro)
+      if (token_type == macro)
         while (param_ptr > limit)
         {
           decr(param_ptr);
@@ -482,7 +482,7 @@ void end_token_list (void)
         }
     }
   }
-  else if (index == u_template)
+  else if (token_type == u_template)
     if (align_state > 500000L)
       align_state = 0;
     else
@@ -499,7 +499,7 @@ void back_input (void)
 {
   pointer p;
 
-  while ((state == 0) && (loc == 0) && (index != v_template))
+  while ((state == 0) && (loc == 0) && (token_type != v_template))
   {
     end_token_list();
   }
@@ -516,7 +516,7 @@ void back_input (void)
   push_input();
   state = token_list;
   start = p;
-  index = backed_up;
+  token_type = backed_up;
   loc = p;
 }
 /* sec 0327 */
@@ -532,7 +532,7 @@ void ins_error (void)
 {
   OK_to_interrupt = false;
   back_input();
-  index = inserted;
+  token_type = inserted;
   OK_to_interrupt = true;
   error();
 }
@@ -997,8 +997,7 @@ found:
     while (!(info(r) == end_match_token));
   }
 
-  while ((state == token_list) && (loc == 0) &&
-      (index != v_template))
+  while ((state == token_list) && (loc == 0) && (token_type != v_template))
     end_token_list();
 
   begin_token_list(ref_count, macro);
@@ -1046,7 +1045,7 @@ void insert_relax (void)
   back_input();
   cur_tok = cs_token_flag + frozen_relax;
   back_input();
-  index = inserted;
+  token_type = inserted;
 }
 /* sec 0366 */
 void expand (void)
@@ -2157,7 +2156,7 @@ found:
 
         case add_delims_to(skip_blanks):
         case add_delims_to(new_line):
-          state = 1;
+          state = mid_line;
           break;
 
         default:
